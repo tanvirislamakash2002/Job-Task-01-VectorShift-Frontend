@@ -1,33 +1,77 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import BaseNode from "./BaseNode";
 
-const TextNode = ({ id, data }) => {
+export const TextNode = ({ data, selected }) => {
   const [currText, setCurrText] = useState(data?.text || "{{input}}");
+  const [detectedVariables, setDetectedVariables] = useState([]);
+
+  // Detect variables like {{variable}}
+  useEffect(() => {
+    const regex = /\{\{\s*([a-zA-Z_][a-zA-Z0-9_]*)\s*\}\}/g;
+    const matches = currText.match(regex) || [];
+    const vars = matches.map(match => 
+      match.replace(/\{\{\s*|\s*\}\}/g, '')
+    );
+    setDetectedVariables(vars);
+    
+    // Update node data with variables for handles
+    if (data?.onVariablesChange) {
+      data.onVariablesChange(vars);
+    }
+  }, [currText, data]);
 
   const handleTextChange = (e) => {
-    setCurrText(e.target.value);
-
-    // keep value in ReactFlow node data
+    const newText = e.target.value;
+    setCurrText(newText);
+    
     if (data?.setText) {
-      data.setText(e.target.value);
+      data.setText(newText);
     }
   };
+
+  // Calculate dynamic height
+  const textAreaHeight = Math.max(80, (currText.split('\n').length * 24));
 
   return (
     <BaseNode
       title="Text"
-      inputs={data.inputs || []}
-      outputs={data.outputs || [`${id}-output`]}
+      icon="📝"
+      inputs={detectedVariables}
+      outputs={["output"]}
+      nodeColor="orange"
+      isSelected={selected}
     >
-      <input
-        type="text"
-        value={currText}
-        onChange={handleTextChange}
-        className="input input-bordered w-full"
-        placeholder="Enter text..."
-      />
+      <div>
+        <textarea
+          value={currText}
+          onChange={handleTextChange}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md
+                   focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                   resize-none"
+          placeholder="Enter text... Use {{variable}} for inputs"
+          style={{
+            minHeight: '80px',
+            height: `${textAreaHeight}px`
+          }}
+        />
+        
+        {detectedVariables.length > 0 && (
+          <div className="mt-2">
+            <p className="text-xs text-gray-500 mb-1">Detected variables:</p>
+            <div className="flex flex-wrap gap-1">
+              {detectedVariables.map((variable, idx) => (
+                <span 
+                  key={idx}
+                  className="px-2 py-1 bg-orange-100 text-orange-800 
+                           text-xs rounded-md"
+                >
+                  {variable}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
     </BaseNode>
   );
 };
-
-export default TextNode;
