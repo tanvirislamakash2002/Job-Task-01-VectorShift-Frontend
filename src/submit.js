@@ -1,11 +1,28 @@
 // submit.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useStore } from './store';
 
 export const SubmitButton = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [response, setResponse] = useState(null);
   const { nodes, edges } = useStore();
+
+  // Add CSS animation for spinner
+  useEffect(() => {
+    const styleSheet = document.styleSheets[0];
+    const hasAnimation = Array.from(styleSheet.cssRules).some(
+      rule => rule.name === 'spin'
+    );
+    
+    if (!hasAnimation) {
+      styleSheet.insertRule(`
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+      `, styleSheet.cssRules.length);
+    }
+  }, []);
 
   const handleSubmit = async () => {
     setIsLoading(true);
@@ -64,237 +81,134 @@ export const SubmitButton = () => {
   };
 
   return (
-    <div style={styles.container}>
+    <div className="flex flex-col items-center justify-center p-6 max-w-2xl mx-auto">
       <button 
         onClick={handleSubmit}
         disabled={isLoading}
-        style={{
-          ...styles.button,
-          ...(isLoading ? styles.buttonLoading : {}),
-          ...(response ? styles.buttonSuccess : {})
-        }}
+        className={`
+          flex items-center justify-center gap-2.5
+          px-8 py-3.5
+          text-white font-semibold text-base
+          rounded-xl shadow-lg
+          transition-all duration-300 ease-in-out
+          min-w-[200px]
+          disabled:cursor-not-allowed disabled:opacity-80
+          ${isLoading 
+            ? 'bg-gray-500 hover:bg-gray-600' 
+            : response 
+              ? 'bg-gradient-to-br from-emerald-500 to-green-400 hover:from-emerald-600 hover:to-green-500' 
+              : 'bg-gradient-to-br from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600'
+          }
+          hover:shadow-xl active:scale-[0.98]
+        `}
       >
         {isLoading ? (
           <>
-            <span style={styles.spinner}></span>
-            Analyzing Pipeline...
+            <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+            <span>Analyzing Pipeline...</span>
           </>
         ) : response ? (
           <>
-            <span style={styles.icon}>✓</span>
-            Submit Again
+            <span className="text-lg">✓</span>
+            <span>Submit Again</span>
           </>
         ) : (
           <>
-            <span style={styles.icon}>📤</span>
-            Submit Pipeline
+            <span className="text-lg">📤</span>
+            <span>Submit Pipeline</span>
           </>
         )}
       </button>
       
       {response && !response.error && (
-        <div style={styles.resultCard}>
-          <h3 style={styles.resultTitle}>Pipeline Analysis Results</h3>
-          <div style={styles.resultsGrid}>
-            <div style={styles.resultItem}>
-              <div style={styles.resultLabel}>Nodes</div>
-              <div style={styles.resultValue}>{response.num_nodes}</div>
+        <div className="mt-6 w-full bg-white rounded-xl shadow-lg p-5 border border-gray-200">
+          <h3 className="text-lg font-semibold text-gray-800 mb-5 text-center">
+            Pipeline Analysis Results
+          </h3>
+          
+          <div className="grid grid-cols-3 gap-4 mb-5">
+            <div className="text-center p-4 bg-gray-50 rounded-lg">
+              <div className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">
+                Nodes
+              </div>
+              <div className="text-2xl font-bold text-gray-800">
+                {response.num_nodes}
+              </div>
             </div>
-            <div style={styles.resultItem}>
-              <div style={styles.resultLabel}>Edges</div>
-              <div style={styles.resultValue}>{response.num_edges}</div>
+            
+            <div className="text-center p-4 bg-gray-50 rounded-lg">
+              <div className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">
+                Edges
+              </div>
+              <div className="text-2xl font-bold text-gray-800">
+                {response.num_edges}
+              </div>
             </div>
-            <div style={styles.resultItem}>
-              <div style={styles.resultLabel}>Is DAG</div>
-              <div style={{
-                ...styles.resultValue,
-                color: response.is_dag ? '#10b981' : '#ef4444'
-              }}>
+            
+            <div className="text-center p-4 bg-gray-50 rounded-lg">
+              <div className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">
+                Is DAG
+              </div>
+              <div className={`text-2xl font-bold ${response.is_dag ? 'text-emerald-600' : 'text-rose-600'}`}>
                 {response.is_dag ? '✓ Yes' : '✗ No'}
               </div>
             </div>
           </div>
-          <div style={styles.explanation}>
-            {response.is_dag ? (
-              <p>✅ Your pipeline is a valid Directed Acyclic Graph (DAG). Data flows properly without cycles.</p>
-            ) : (
-              <p>⚠️ Your pipeline contains cycles. Data may flow in loops, which could cause issues.</p>
-            )}
+          
+          <div className={`p-4 rounded-lg border-l-4 ${response.is_dag ? 'bg-emerald-50 border-emerald-400' : 'bg-amber-50 border-amber-400'}`}>
+            <p className="text-sm text-gray-700">
+              {response.is_dag ? (
+                <>✅ Your pipeline is a valid Directed Acyclic Graph (DAG). Data flows properly without cycles.</>
+              ) : (
+                <>⚠️ Your pipeline contains cycles. Data may flow in loops, which could cause issues.</>
+              )}
+            </p>
           </div>
         </div>
       )}
       
       {response?.error && (
-        <div style={styles.errorCard}>
-          <h3 style={styles.errorTitle}>Error</h3>
-          <p style={styles.errorMessage}>{response.error}</p>
-          <p style={styles.helpText}>
-            Make sure the backend server is running:<br/>
-            <code style={styles.code}>cd backend && uvicorn main:app --reload</code>
+        <div className="mt-6 w-full bg-rose-50 rounded-xl p-5 border border-rose-200">
+          <h3 className="text-lg font-semibold text-rose-700 mb-3">
+            Error
+          </h3>
+          <p className="text-rose-800 mb-4 text-sm">
+            {response.error}
           </p>
+          <div className="text-gray-600 text-sm">
+            <p className="mb-2">Make sure the backend server is running:</p>
+            <code className="block bg-gray-800 text-gray-100 px-3 py-2 rounded text-xs font-mono">
+              cd backend && uvicorn main:app --reload
+            </code>
+          </div>
         </div>
       )}
       
-      <div style={styles.infoBox}>
-        <p style={styles.infoText}>
-          <strong>What happens when you click Submit?</strong><br/>
-          1. Pipeline data is sent to the backend<br/>
-          2. Backend calculates nodes, edges, and checks for cycles<br/>
-          3. Results are displayed in an alert and below
+      <div className="mt-6 w-full p-4 bg-gray-50 rounded-xl border border-dashed border-gray-300">
+        <p className="text-sm text-gray-600">
+          <strong className="text-gray-700">What happens when you click Submit?</strong><br/>
+          <span className="block mt-1">1. Pipeline data is sent to the backend</span>
+          <span className="block">2. Backend calculates nodes, edges, and checks for cycles</span>
+          <span className="block">3. Results are displayed in an alert and below</span>
+        </p>
+      </div>
+      
+      {/* Pipeline Stats Summary */}
+      <div className="mt-4 w-full">
+        <div className="grid grid-cols-2 gap-4 text-sm">
+          <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
+            <span className="text-blue-700">Current Nodes:</span>
+            <span className="font-bold text-blue-800">{nodes.length}</span>
+          </div>
+          <div className="flex items-center justify-between p-3 bg-purple-50 rounded-lg">
+            <span className="text-purple-700">Current Edges:</span>
+            <span className="font-bold text-purple-800">{edges.length}</span>
+          </div>
+        </div>
+        <p className="text-xs text-gray-500 mt-2 text-center">
+          Build your pipeline, then click Submit to analyze
         </p>
       </div>
     </div>
   );
 };
-
-const styles = {
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: '24px',
-    maxWidth: '600px',
-    margin: '0 auto'
-  },
-  button: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: '10px',
-    padding: '14px 32px',
-    fontSize: '16px',
-    fontWeight: '600',
-    color: 'white',
-    background: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)',
-    border: 'none',
-    borderRadius: '12px',
-    cursor: 'pointer',
-    transition: 'all 0.3s ease',
-    boxShadow: '0 4px 6px -1px rgba(59, 130, 246, 0.3), 0 2px 4px -1px rgba(59, 130, 246, 0.2)',
-    minWidth: '200px'
-  },
-  buttonLoading: {
-    background: '#6b7280',
-    cursor: 'not-allowed',
-    opacity: 0.8
-  },
-  buttonSuccess: {
-    background: 'linear-gradient(135deg, #10b981 0%, #34d399 100%)',
-  },
-  spinner: {
-    width: '16px',
-    height: '16px',
-    border: '2px solid rgba(255, 255, 255, 0.3)',
-    borderTopColor: 'white',
-    borderRadius: '50%',
-    animation: 'spin 1s linear infinite'
-  },
-  icon: {
-    fontSize: '18px'
-  },
-  resultCard: {
-    background: 'white',
-    borderRadius: '12px',
-    padding: '20px',
-    marginTop: '24px',
-    width: '100%',
-    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
-    border: '1px solid #e5e7eb'
-  },
-  resultTitle: {
-    fontSize: '18px',
-    fontWeight: '600',
-    color: '#1f2937',
-    marginBottom: '20px',
-    textAlign: 'center'
-  },
-  resultsGrid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(3, 1fr)',
-    gap: '16px',
-    marginBottom: '20px'
-  },
-  resultItem: {
-    textAlign: 'center',
-    padding: '12px',
-    background: '#f9fafb',
-    borderRadius: '8px'
-  },
-  resultLabel: {
-    fontSize: '12px',
-    color: '#6b7280',
-    fontWeight: '500',
-    marginBottom: '4px',
-    textTransform: 'uppercase',
-    letterSpacing: '0.05em'
-  },
-  resultValue: {
-    fontSize: '24px',
-    fontWeight: '700',
-    color: '#111827'
-  },
-  explanation: {
-    padding: '12px',
-    background: '#f0f9ff',
-    borderRadius: '8px',
-    borderLeft: '4px solid #3b82f6'
-  },
-  errorCard: {
-    background: '#fef2f2',
-    borderRadius: '12px',
-    padding: '20px',
-    marginTop: '24px',
-    width: '100%',
-    border: '1px solid #fecaca'
-  },
-  errorTitle: {
-    fontSize: '18px',
-    fontWeight: '600',
-    color: '#dc2626',
-    marginBottom: '12px'
-  },
-  errorMessage: {
-    color: '#7f1d1d',
-    marginBottom: '16px',
-    fontSize: '14px'
-  },
-  helpText: {
-    color: '#6b7280',
-    fontSize: '13px',
-    lineHeight: '1.5'
-  },
-  code: {
-    background: '#1f2937',
-    color: '#f3f4f6',
-    padding: '4px 8px',
-    borderRadius: '4px',
-    fontSize: '12px',
-    fontFamily: 'monospace',
-    marginTop: '8px',
-    display: 'inline-block'
-  },
-  infoBox: {
-    marginTop: '24px',
-    padding: '16px',
-    background: '#f8fafc',
-    borderRadius: '8px',
-    border: '1px dashed #cbd5e1',
-    width: '100%'
-  },
-  infoText: {
-    color: '#475569',
-    fontSize: '14px',
-    lineHeight: '1.6',
-    margin: 0
-  }
-};
-
-// Add CSS animation for spinner
-const styleSheet = document.styleSheets[0];
-styleSheet.insertRule(`
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-`, styleSheet.cssRules.length);
