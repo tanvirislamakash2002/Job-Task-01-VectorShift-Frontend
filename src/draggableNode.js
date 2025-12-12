@@ -1,14 +1,18 @@
 // draggableNode.js
+import { 
+  FiUpload, FiDownload, FiCpu, FiFileText, 
+  FiFile, FiCode, FiMessageSquare, FiFilter,
+  FiBarChart2, FiBox 
+} from 'react-icons/fi';
+
 export const DraggableNode = ({ type, label }) => {
-  // Define color mapping directly (safer than relying on registry)
+  // Define color mapping
   const getColorClass = (nodeType) => {
     const colorMap = {
-      // Core nodes (from ui.js)
       'customInput': 'bg-blue-600 hover:bg-blue-700 border-blue-500',
       'customOutput': 'bg-green-600 hover:bg-green-700 border-green-500',
       'llm': 'bg-purple-600 hover:bg-purple-700 border-purple-500',
       'text': 'bg-orange-600 hover:bg-orange-700 border-orange-500',
-      // Custom nodes (from ui.js)
       'csvInput': 'bg-blue-500 hover:bg-blue-600 border-blue-400',
       'jsonOutput': 'bg-green-500 hover:bg-green-600 border-green-400',
       'promptLLM': 'bg-purple-500 hover:bg-purple-600 border-purple-400',
@@ -20,17 +24,17 @@ export const DraggableNode = ({ type, label }) => {
 
   const getIcon = (nodeType) => {
     const iconMap = {
-      'customInput': '📥',
-      'customOutput': '📤',
-      'llm': '🤖',
-      'text': '📝',
-      'csvInput': '📊',
-      'jsonOutput': '{}',
-      'promptLLM': '💬',
-      'filterText': '🔍',
-      'statsNode': '📈',
+      'customInput': <FiUpload className="text-white text-xl" />,
+      'customOutput': <FiDownload className="text-white text-xl" />,
+      'llm': <FiCpu className="text-white text-xl" />,
+      'text': <FiFileText className="text-white text-xl" />,
+      'csvInput': <FiFile className="text-white text-xl" />,
+      'jsonOutput': <FiCode className="text-white text-xl" />,
+      'promptLLM': <FiMessageSquare className="text-white text-xl" />,
+      'filterText': <FiFilter className="text-white text-xl" />,
+      'statsNode': <FiBarChart2 className="text-white text-xl" />,
     };
-    return iconMap[nodeType] || '📦';
+    return iconMap[nodeType] || <FiBox className="text-white text-xl" />;
   };
 
   const getPortCount = (nodeType) => {
@@ -61,7 +65,7 @@ export const DraggableNode = ({ type, label }) => {
       className={`
         ${getColorClass(type)}
         cursor-grab active:cursor-grabbing
-        min-w-[85px] h-[75px]
+        min-w-[85px] h-[95px]
         flex flex-col items-center justify-center
         rounded-lg shadow-md hover:shadow-lg
         transition-all duration-200 ease-in-out
@@ -75,9 +79,9 @@ export const DraggableNode = ({ type, label }) => {
       }}
       draggable
     >
-      <span className="text-white text-lg mb-1">
+      <div className="text-white text-xl mb-1">
         {getIcon(type)}
-      </span>
+      </div>
       <span className="text-white text-sm font-medium text-center">
         {label}
       </span>

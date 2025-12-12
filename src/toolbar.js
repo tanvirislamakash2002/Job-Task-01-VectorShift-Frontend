@@ -24,7 +24,7 @@ export const PipelineToolbar = () => {
         <h3 className="font-semibold text-gray-700 text-sm mb-3 uppercase tracking-wide text-gray-500">
           Core Nodes
         </h3>
-        <div className="flex flex-wrap gap-3">
+        <div className="grid grid-cols-2 gap-3">
           {coreNodes.map((node) => (
             <DraggableNode 
               key={node.type} 
@@ -39,7 +39,7 @@ export const PipelineToolbar = () => {
         <h3 className="font-semibold text-gray-700 text-sm mb-3 uppercase tracking-wide text-gray-500">
           Custom Nodes
         </h3>
-        <div className="flex flex-wrap gap-3">
+        <div className="grid grid-cols-2 gap-3">
           {customNodes.map((node) => (
             <DraggableNode 
               key={node.type} 

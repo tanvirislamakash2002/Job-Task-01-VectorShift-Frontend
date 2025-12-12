@@ -15,22 +15,40 @@ function App() {
               Pipeline Builder
             </span>
           </div>
-
         </div>
         <p className="text-gray-600 mt-2">
           Drag nodes from the toolbar onto the canvas. Connect them to build your pipeline.
         </p>
       </header>
 
-      <div className="flex flex-col lg:flex-row gap-6">
-        {/* Left Sidebar */}
-        <div className="lg:w-64">
-          <div className="bg-white rounded-xl shadow-lg p-4 mb-6">
+      {/* Main Content Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        {/* Left Sidebar - 1 column on mobile, 1/4 width on desktop */}
+        <div className="lg:col-span-1 space-y-6">
+          <div className="bg-white rounded-xl shadow-lg p-4">
             <h2 className="font-semibold text-gray-700 mb-4 text-lg">Node Library</h2>
             <PipelineToolbar />
           </div>
           
-          <div className="bg-white rounded-xl shadow-lg p-4">
+
+        </div>
+
+        {/* Main Canvas Area - 1 column on mobile, 3/4 width on desktop */}
+        <div className="lg:col-span-3">
+          <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200 h-full">
+            <div className="p-4 border-b border-gray-200 bg-linear-to-r from-gray-50 to-white">
+              <div className="flex items-center justify-between">
+                <h2 className="font-semibold text-gray-800">Pipeline Canvas</h2>
+                <div className="text-sm text-gray-500">
+                  <span className="flex items-center">
+                    <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+                    Ready to connect
+                  </span>
+                </div>
+              </div>
+            </div>
+            <PipelineUI />
+                    <div className="bg-white rounded-xl shadow-lg p-4">
             <h2 className="font-semibold text-gray-700 mb-4 text-lg">Pipeline Actions</h2>
             <SubmitButton />
             <div className="mt-4 text-xs text-gray-500">
@@ -39,17 +57,6 @@ function App() {
               <p>Connections define data flow.</p>
             </div>
           </div>
-        </div>
-
-        {/* Main Canvas Area */}
-        <div className="flex-1">
-          <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200">
-            <div className="p-4 border-b border-gray-200 bg-linear-to-r from-gray-50 to-white">
-              <div className="flex items-center justify-between">
-                <h2 className="font-semibold text-gray-800">Pipeline Canvas</h2>
-              </div>
-            </div>
-            <PipelineUI />
           </div>
         </div>
       </div>
