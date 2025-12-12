@@ -53,20 +53,20 @@ const BaseNode = ({
       </div>
 
       {/* Input Handles */}
-      {inputs.map((inputId, index) => (
-        <Handle
-          key={`input-${inputId}`}
-          type="target"
-          position={Position.Left}
-          id={inputId}
-          style={{
-            top: `${((index + 1) * 100) / (inputs.length + 1)}%`,
-            background: '#555',
-            width: '12px',
-            height: '12px'
-          }}
-        />
-      ))}
+{inputs.map((inputId, index) => (
+  <Handle
+    key={`input-${inputId}-${index}`}  // Added index to key
+    type="target"
+    position={Position.Left}
+    id={inputId}
+    style={{
+      top: `${((index + 1) * 100) / (inputs.length + 1)}%`,
+      background: '#555',
+      width: '12px',
+      height: '12px'
+    }}
+  />
+))}
 
       {/* Node Content */}
       <div className="p-4">
@@ -74,20 +74,20 @@ const BaseNode = ({
       </div>
 
       {/* Output Handles */}
-      {outputs.map((outputId, index) => (
-        <Handle
-          key={`output-${outputId}`}
-          type="source"
-          position={Position.Right}
-          id={outputId}
-          style={{
-            top: `${((index + 1) * 100) / (outputs.length + 1)}%`,
-            background: '#555',
-            width: '12px',
-            height: '12px'
-          }}
-        />
-      ))}
+{outputs.map((outputId, index) => (
+  <Handle
+    key={`output-${outputId}-${index}`}  // Added index to key
+    type="source"
+    position={Position.Right}
+    id={outputId}
+    style={{
+      top: `${((index + 1) * 100) / (outputs.length + 1)}%`,
+      background: '#555',
+      width: '12px',
+      height: '12px'
+    }}
+  />
+))}
     </div>
   );
 };
