@@ -1,6 +1,14 @@
 // submit.js
 import React, { useState, useEffect } from 'react';
 import { useStore } from './store';
+import { 
+  FiUpload, 
+  FiCheckCircle, 
+  FiAlertTriangle,
+  FiRefreshCw,
+  FiBarChart2,
+  FiLink
+} from 'react-icons/fi';
 
 export const SubmitButton = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -104,17 +112,17 @@ export const SubmitButton = () => {
       >
         {isLoading ? (
           <>
-            <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+            <FiRefreshCw className="w-5 h-5 animate-spin" />
             <span>Analyzing Pipeline...</span>
           </>
         ) : response ? (
           <>
-            <span className="text-lg">✓</span>
+            <FiCheckCircle className="w-5 h-5" />
             <span>Submit Again</span>
           </>
         ) : (
           <>
-            <span className="text-lg">📤</span>
+            <FiUpload className="w-5 h-5" />
             <span>Submit Pipeline</span>
           </>
         )}
@@ -128,8 +136,11 @@ export const SubmitButton = () => {
           
           <div className="grid grid-cols-3 gap-4 mb-5">
             <div className="text-center p-4 bg-gray-50 rounded-lg">
-              <div className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">
-                Nodes
+              <div className="flex items-center justify-center gap-1.5 mb-2">
+                <FiBarChart2 className="w-4 h-4 text-gray-500" />
+                <div className="text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Nodes
+                </div>
               </div>
               <div className="text-2xl font-bold text-gray-800">
                 {response.num_nodes}
@@ -137,8 +148,11 @@ export const SubmitButton = () => {
             </div>
             
             <div className="text-center p-4 bg-gray-50 rounded-lg">
-              <div className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">
-                Edges
+              <div className="flex items-center justify-center gap-1.5 mb-2">
+                <FiLink className="w-4 h-4 text-gray-500" />
+                <div className="text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Edges
+                </div>
               </div>
               <div className="text-2xl font-bold text-gray-800">
                 {response.num_edges}
@@ -146,8 +160,15 @@ export const SubmitButton = () => {
             </div>
             
             <div className="text-center p-4 bg-gray-50 rounded-lg">
-              <div className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">
-                Is DAG
+              <div className="flex items-center justify-center gap-1.5 mb-2">
+                {response.is_dag ? (
+                  <FiCheckCircle className="w-4 h-4 text-emerald-500" />
+                ) : (
+                  <FiAlertTriangle className="w-4 h-4 text-rose-500" />
+                )}
+                <div className="text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Is DAG
+                </div>
               </div>
               <div className={`text-2xl font-bold ${response.is_dag ? 'text-emerald-600' : 'text-rose-600'}`}>
                 {response.is_dag ? '✓ Yes' : '✗ No'}
@@ -155,12 +176,17 @@ export const SubmitButton = () => {
             </div>
           </div>
           
-          <div className={`p-4 rounded-lg border-l-4 ${response.is_dag ? 'bg-emerald-50 border-emerald-400' : 'bg-amber-50 border-amber-400'}`}>
+          <div className={`p-4 rounded-lg border-l-4 flex items-start gap-3 ${response.is_dag ? 'bg-emerald-50 border-emerald-400' : 'bg-amber-50 border-amber-400'}`}>
+            {response.is_dag ? (
+              <FiCheckCircle className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
+            ) : (
+              <FiAlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
+            )}
             <p className="text-sm text-gray-700">
               {response.is_dag ? (
-                <>✅ Your pipeline is a valid Directed Acyclic Graph (DAG). Data flows properly without cycles.</>
+                <>Your pipeline is a valid Directed Acyclic Graph (DAG). Data flows properly without cycles.</>
               ) : (
-                <>⚠️ Your pipeline contains cycles. Data may flow in loops, which could cause issues.</>
+                <>Your pipeline contains cycles. Data may flow in loops, which could cause issues.</>
               )}
             </p>
           </div>
@@ -169,7 +195,8 @@ export const SubmitButton = () => {
       
       {response?.error && (
         <div className="mt-6 w-full bg-rose-50 rounded-xl p-5 border border-rose-200">
-          <h3 className="text-lg font-semibold text-rose-700 mb-3">
+          <h3 className="text-lg font-semibold text-rose-700 mb-3 flex items-center gap-2">
+            <FiAlertTriangle className="w-5 h-5" />
             Error
           </h3>
           <p className="text-rose-800 mb-4 text-sm">
@@ -185,23 +212,47 @@ export const SubmitButton = () => {
       )}
       
       <div className="mt-6 w-full p-4 bg-gray-50 rounded-xl border border-dashed border-gray-300">
-        <p className="text-sm text-gray-600">
-          <strong className="text-gray-700">What happens when you click Submit?</strong><br/>
-          <span className="block mt-1">1. Pipeline data is sent to the backend</span>
-          <span className="block">2. Backend calculates nodes, edges, and checks for cycles</span>
-          <span className="block">3. Results are displayed in an alert and below</span>
-        </p>
+        <div className="flex items-start gap-3">
+          <div className="w-5 h-5 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+            <FiUpload className="w-3 h-3 text-blue-600" />
+          </div>
+          <div>
+            <p className="text-sm text-gray-700 font-medium mb-1">
+              What happens when you click Submit?
+            </p>
+            <ul className="text-sm text-gray-600 space-y-1">
+              <li className="flex items-center gap-2">
+                <div className="w-1.5 h-1.5 rounded-full bg-blue-500"></div>
+                Pipeline data is sent to the backend
+              </li>
+              <li className="flex items-center gap-2">
+                <div className="w-1.5 h-1.5 rounded-full bg-blue-500"></div>
+                Backend calculates nodes, edges, and checks for cycles
+              </li>
+              <li className="flex items-center gap-2">
+                <div className="w-1.5 h-1.5 rounded-full bg-blue-500"></div>
+                Results are displayed in an alert and below
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
       
       {/* Pipeline Stats Summary */}
       <div className="mt-4 w-full">
         <div className="grid grid-cols-2 gap-4 text-sm">
           <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
-            <span className="text-blue-700">Current Nodes:</span>
+            <div className="flex items-center gap-2 text-blue-700">
+              <FiBarChart2 className="w-4 h-4" />
+              <span>Current Nodes:</span>
+            </div>
             <span className="font-bold text-blue-800">{nodes.length}</span>
           </div>
           <div className="flex items-center justify-between p-3 bg-purple-50 rounded-lg">
-            <span className="text-purple-700">Current Edges:</span>
+            <div className="flex items-center gap-2 text-purple-700">
+              <FiLink className="w-4 h-4" />
+              <span>Current Edges:</span>
+            </div>
             <span className="font-bold text-purple-800">{edges.length}</span>
           </div>
         </div>
