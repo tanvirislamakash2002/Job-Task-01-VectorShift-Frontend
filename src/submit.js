@@ -1,6 +1,8 @@
 // submit.js
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useStore } from './store';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 import { 
   FiUpload, 
   FiCheckCircle, 
@@ -10,34 +12,18 @@ import {
   FiLink
 } from 'react-icons/fi';
 
+const MySwal = withReactContent(Swal);
+
 export const SubmitButton = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [response, setResponse] = useState(null);
   const { nodes, edges } = useStore();
-
-  // Add CSS animation for spinner
-  useEffect(() => {
-    const styleSheet = document.styleSheets[0];
-    const hasAnimation = Array.from(styleSheet.cssRules).some(
-      rule => rule.name === 'spin'
-    );
-    
-    if (!hasAnimation) {
-      styleSheet.insertRule(`
-        @keyframes spin {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
-        }
-      `, styleSheet.cssRules.length);
-    }
-  }, []);
 
   const handleSubmit = async () => {
     setIsLoading(true);
     setResponse(null);
     
     try {
-      // Prepare data for backend
       const pipelineData = {
         nodes: nodes.map(node => ({
           id: node.id,
@@ -54,7 +40,6 @@ export const SubmitButton = () => {
         }))
       };
 
-      // Send to backend (Part 4 requirement)
       const backendResponse = await fetch('http://localhost:8000/pipelines/parse', {
         method: 'POST',
         headers: {
@@ -70,18 +55,64 @@ export const SubmitButton = () => {
       const result = await backendResponse.json();
       setResponse(result);
       
-      // Show alert with results (Part 4 requirement)
-      alert(
-        `Pipeline Analysis Results:\n\n` +
-        `✅ Number of Nodes: ${result.num_nodes}\n` +
-        `✅ Number of Edges: ${result.num_edges}\n` +
-        `✅ Is DAG: ${result.is_dag ? 'Yes' : 'No'}\n\n` +
-        `A Directed Acyclic Graph (DAG) means your pipeline has no cycles and data flows in one direction.`
-      );
+      // SweetAlert2 for success
+      MySwal.fire({
+        title: 'Pipeline Analysis Results',
+        html: `
+          <div style="text-align: left; margin: 1rem 0;">
+            <p style="margin: 0.5rem 0; display: flex; align-items: center; gap: 0.5rem;">
+              <span style="color: #10b981;">✓</span>
+              <span><strong>Number of Nodes:</strong> ${result.num_nodes}</span>
+            </p>
+            <p style="margin: 0.5rem 0; display: flex; align-items: center; gap: 0.5rem;">
+              <span style="color: #10b981;">✓</span>
+              <span><strong>Number of Edges:</strong> ${result.num_edges}</span>
+            </p>
+            <p style="margin: 0.5rem 0; display: flex; align-items: center; gap: 0.5rem;">
+              <span style="color: ${result.is_dag ? '#10b981' : '#ef4444'};">${result.is_dag ? '✓' : '✗'}</span>
+              <span><strong>Is DAG:</strong> ${result.is_dag ? 'Yes' : 'No'}</span>
+            </p>
+          </div>
+          <hr style="margin: 1rem 0; border: none; border-top: 1px solid #e5e7eb;" />
+          <p style="font-size: 0.9rem; color: #6b7280; text-align: left;">
+            A Directed Acyclic Graph (DAG) means your pipeline has no cycles and data flows in one direction.
+          </p>
+        `,
+        icon: result.is_dag ? 'success' : 'warning',
+        iconColor: result.is_dag ? '#10b981' : '#f59e0b',
+        confirmButtonText: 'OK',
+        confirmButtonColor: result.is_dag ? '#10b981' : '#f59e0b',
+        width: '500px',
+        background: '#ffffff',
+        color: '#1f2937',
+        borderRadius: '12px',
+        padding: '1.5rem'
+      });
 
     } catch (error) {
       console.error('Error submitting pipeline:', error);
-      alert(`Error submitting pipeline: ${error.message}\n\nMake sure the backend is running on http://localhost:8000`);
+      
+      // SweetAlert2 for error
+      MySwal.fire({
+        title: 'Error Submitting Pipeline',
+        html: `
+          <p style="color: #7f1d1d; margin-bottom: 1rem;">${error.message}</p>
+          <p style="font-size: 0.9rem; color: #6b7280; margin-bottom: 1rem;">
+            Make sure the backend is running on http://localhost:8000
+          </p>
+          <div style="background: #1f2937; color: #f3f4f6; padding: 0.75rem; 
+                   border-radius: 0.5rem; margin-top: 1rem; font-family: monospace; 
+                   font-size: 0.85rem; text-align: center;">
+            cd backend && uvicorn main:app --reload
+          </div>
+        `,
+        icon: 'error',
+        iconColor: '#dc2626',
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#dc2626',
+        width: '500px'
+      });
+      
       setResponse({ error: error.message });
     } finally {
       setIsLoading(false);
