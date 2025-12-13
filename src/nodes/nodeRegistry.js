@@ -1,4 +1,3 @@
-// frontend/src/nodes/nodeRegistry.js
 export const NODE_TYPES = {
   INPUT: 'customInput',
   OUTPUT: 'customOutput',
@@ -14,64 +13,63 @@ export const NODE_TYPES = {
 export const NODE_CONFIGS = {
   [NODE_TYPES.INPUT]: {
     title: "Input",
-    icon: "📥",
+    icon: "FiUpload",
     color: "blue",
     defaultInputs: [],
     defaultOutputs: ["value"]
   },
   [NODE_TYPES.OUTPUT]: {
     title: "Output",
-    icon: "📤",
+    icon: "FiDownload",
     color: "green",
     defaultInputs: ["value"],
     defaultOutputs: []
   },
   [NODE_TYPES.LLM]: {
     title: "LLM",
-    icon: "🤖",
+    icon: "FiCpu",
     color: "purple",
     defaultInputs: ["system", "prompt"],
     defaultOutputs: ["response"]
   },
   [NODE_TYPES.TEXT]: {
     title: "Text",
-    icon: "📝",
+    icon: "FiFileText",
     color: "orange",
     defaultInputs: [],
     defaultOutputs: ["output"]
   },
-  // Add your 5 new nodes here
   [NODE_TYPES.CSV_INPUT]: {
     title: "CSV Input",
-    icon: "📊",
-    color: "blue",
+    icon: "FiFile",
+    color: "lightBlue",
     defaultInputs: [],
     defaultOutputs: ["csv"]
   },
   [NODE_TYPES.JSON_OUTPUT]: {
     title: "JSON Output",
-    icon: "{}",
-    color: "green",
+    icon: "FiCode",
+    color: "lightGreen",
     defaultInputs: ["data"],
     defaultOutputs: []
   },
   [NODE_TYPES.PROMPT_LLM]: {
     title: "Prompt LLM",
-    icon: "💬",
-    color: "purple",
+    icon: "FiMessageSquare",
+    color: "lightPurple",
     defaultInputs: ["prompt"],
     defaultOutputs: ["response"]
   },
   [NODE_TYPES.FILTER_TEXT]: {
     title: "Filter Text",
-    icon: "🔍",
-    color: "orange",
+    icon: "FiFilter",
+    color: "lightOrange",
     defaultInputs: ["text"],
     defaultOutputs: ["filtered"]
   },
   [NODE_TYPES.STATS]: {
     title: "Stats",
-    icon: "📈",
+    icon: "FiBarChart2",
     color: "gray",
     defaultInputs: ["text"],
     defaultOutputs: ["stats"]

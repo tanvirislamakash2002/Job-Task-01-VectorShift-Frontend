@@ -3,7 +3,6 @@ import BaseNode from "./BaseNode";
 import { FiCode } from "react-icons/fi";
 
 export const JSONOutputNode = ({ data, selected }) => {
-  // Get the JSON data from node's data or connected input
   const jsonData = data?.value || data?.jsonData || { status: "Waiting for data..." };
   
   return (
