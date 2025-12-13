@@ -9,7 +9,7 @@ function App() {
       <header className="mb-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <h1 className="text-2xl font-bold bg-linear-to-r from-blue-600 to-purple-600 text-white p-2 rounded-xl">VectorShift</h1>
+            <h1 className="text-2xl font-bold bg-linear-to-r from-blue-600 to-purple-600 text-white py-2 px-4 rounded-xl">VectorShift</h1>
           </div>
         </div>
         <p className="text-gray-600 mt-2">
