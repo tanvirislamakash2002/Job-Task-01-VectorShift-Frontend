@@ -1,6 +1,6 @@
-// OutputNode.jsx
 import { useState } from "react";
 import BaseNode from "./BaseNode";
+import { FiDownload } from "react-icons/fi";
 
 export const OutputNode = ({ data, selected }) => {
   const [currName, setCurrName] = useState(
@@ -11,7 +11,7 @@ export const OutputNode = ({ data, selected }) => {
   return (
     <BaseNode
       title="Output"
-      icon="📤"
+      icon={<FiDownload className="text-white" />}
       inputs={["value"]}
       outputs={[]}
       nodeColor="green"
@@ -47,8 +47,9 @@ export const OutputNode = ({ data, selected }) => {
         </div>
 
         {outputType === "Image" && (
-          <div className="text-xs text-gray-500 mt-2">
-            ⚠️ Output will be saved as image file
+          <div className="text-xs text-gray-500 mt-2 flex items-center gap-1">
+            <FiDownload className="w-3 h-3" />
+            Output will be saved as image file
           </div>
         )}
       </div>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import BaseNode from "./BaseNode";
+import { FiFileText } from "react-icons/fi";
 
 export const TextNode = ({ data, selected }) => {
   const [currText, setCurrText] = useState(data?.text || "{{input}}");
@@ -35,7 +36,7 @@ export const TextNode = ({ data, selected }) => {
   return (
     <BaseNode
       title="Text"
-      icon="📝"
+      icon={<FiFileText className="text-white" />}
       inputs={detectedVariables}
       outputs={["output"]}
       nodeColor="orange"
@@ -57,7 +58,10 @@ export const TextNode = ({ data, selected }) => {
         
         {detectedVariables.length > 0 && (
           <div className="mt-2">
-            <p className="text-xs text-gray-500 mb-1">Detected variables:</p>
+            <p className="text-xs text-gray-500 mb-1 flex items-center gap-1">
+              <FiFileText className="w-3 h-3" />
+              Detected variables:
+            </p>
             <div className="flex flex-wrap gap-1">
               {detectedVariables.map((variable, idx) => (
                 <span 

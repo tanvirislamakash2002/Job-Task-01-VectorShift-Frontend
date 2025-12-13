@@ -1,4 +1,3 @@
-// submit.js
 import React, { useState } from 'react';
 import { useStore } from './store';
 import Swal from 'sweetalert2';

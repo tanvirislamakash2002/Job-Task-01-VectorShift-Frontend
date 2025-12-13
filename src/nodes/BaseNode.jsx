@@ -1,4 +1,3 @@
-// frontend/src/nodes/BaseNode.jsx
 import React from "react";
 import { Handle, Position } from "reactflow";
 
@@ -13,18 +12,26 @@ const BaseNode = ({
   isSelected = false
 }) => {
   const colorClasses = {
-    blue: "border-blue-300 bg-blue-50",
-    green: "border-green-300 bg-green-50",
-    purple: "border-purple-300 bg-purple-50",
-    orange: "border-orange-300 bg-orange-50",
-    gray: "border-gray-300 bg-gray-50"
+    blue: "border-blue-600 bg-blue-100",
+    lightBlue: "border-blue-400 bg-blue-50",
+    green: "border-green-600 bg-green-100",
+    lightGreen: "border-green-400 bg-green-50",
+    purple: "border-purple-600 bg-purple-100",
+    lightPurple: "border-purple-400 bg-purple-50",
+    orange: "border-orange-600 bg-orange-100",
+    lightOrange: "border-orange-400 bg-orange-50",
+    gray: "border-gray-600 bg-gray-100"
   };
 
   const headerColors = {
     blue: "bg-blue-600 text-white",
+    lightBlue: "bg-blue-400 text-white",      
     green: "bg-green-600 text-white",
+    lightGreen: "bg-green-400 text-white",    
     purple: "bg-purple-600 text-white",
+    lightPurple: "bg-purple-400 text-white",  
     orange: "bg-orange-600 text-white",
+    lightOrange: "bg-orange-400 text-white",  
     gray: "bg-gray-600 text-white"
   };
 
@@ -55,7 +62,7 @@ const BaseNode = ({
       {/* Input Handles */}
       {inputs.map((inputId, index) => (
         <Handle
-          key={`input-${inputId}-${index}`}  
+          key={`input-${inputId}-${index}`}
           type="target"
           position={Position.Left}
           id={inputId}

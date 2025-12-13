@@ -1,6 +1,6 @@
-// LLMNode.jsx
 import React, { useState } from "react";
 import BaseNode from "./BaseNode";
+import { FiCpu } from "react-icons/fi";
 
 export const LLMNode = ({ data, selected }) => {
   const [model, setModel] = useState(data?.model || "gpt-4");
@@ -9,7 +9,7 @@ export const LLMNode = ({ data, selected }) => {
   return (
     <BaseNode
       title="LLM"
-      icon="🤖"
+      icon={<FiCpu className="text-white" />}
       inputs={["system", "prompt"]}
       outputs={["response"]}
       nodeColor="purple"
@@ -52,7 +52,8 @@ export const LLMNode = ({ data, selected }) => {
           </div>
         </div>
 
-        <div className="text-xs text-gray-500 mt-2">
+        <div className="text-xs text-gray-500 mt-2 flex items-center gap-1">
+          <FiCpu className="w-3 h-3" />
           Takes system prompt and user prompt, returns LLM response
         </div>
       </div>

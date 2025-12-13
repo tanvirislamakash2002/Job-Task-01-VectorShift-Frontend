@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import BaseNode from "./BaseNode";
+import { FiUpload } from "react-icons/fi";
 
 export const InputNode = ({ data, selected }) => {
   const [currName, setCurrName] = useState(
@@ -10,7 +11,7 @@ export const InputNode = ({ data, selected }) => {
   return (
     <BaseNode
       title="Input"
-      icon="📥"
+      icon={<FiUpload className="text-white" />}
       inputs={[]}
       outputs={["value"]}
       nodeColor="blue"

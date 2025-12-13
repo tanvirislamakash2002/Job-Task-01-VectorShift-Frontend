@@ -1,5 +1,6 @@
 import React from "react";
 import BaseNode from "./BaseNode";
+import { FiCode } from "react-icons/fi";
 
 export const JSONOutputNode = ({ data, selected }) => {
   // Get the JSON data from node's data or connected input
@@ -8,10 +9,10 @@ export const JSONOutputNode = ({ data, selected }) => {
   return (
     <BaseNode
       title="JSON Output"
-      icon="{}"
+      icon={<FiCode className="text-white" />}
       inputs={["data"]}
       outputs={[]}
-      nodeColor="green"
+      nodeColor="lightGreen"
       isSelected={selected}
     >
       <div className="space-y-3">
@@ -27,12 +28,12 @@ export const JSONOutputNode = ({ data, selected }) => {
         <div className="text-xs text-gray-500">
           {typeof jsonData === 'object' && !jsonData.status ? (
             <div className="flex items-center text-green-600">
-              <span className="mr-1">✓</span>
+              <FiCode className="w-3 h-3 mr-1" />
               Valid JSON received ({Object.keys(jsonData).length} keys)
             </div>
           ) : (
             <div className="flex items-center text-amber-600">
-              <span className="mr-1">⏳</span>
+              <FiCode className="w-3 h-3 mr-1 animate-pulse" />
               {jsonData.status || "Connect data to see JSON output"}
             </div>
           )}
