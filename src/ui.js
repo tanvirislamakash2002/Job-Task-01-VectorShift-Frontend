@@ -1,7 +1,3 @@
-// ui.js
-// Displays the drag-and-drop UI
-// --------------------------------------------------
-
 import { useState, useRef, useCallback } from 'react';
 import ReactFlow, { Controls, Background, MiniMap } from 'reactflow';
 import { useStore } from './store';
@@ -11,8 +7,6 @@ import { InputNode } from './nodes/InputNode';
 import {LLMNode} from './nodes/LLMNode';
 import {OutputNode} from './nodes/OutputNode';
 import {TextNode} from './nodes/TextNode';
-
-// New custom nodes
 import {CSVInputNode} from './nodes/CSVInputNode';
 import {JSONOutputNode} from './nodes/JSONOutputNode';
 import {PromptLLMNode} from './nodes/PromptLLMNode';

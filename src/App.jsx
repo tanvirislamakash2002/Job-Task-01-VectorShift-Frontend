@@ -9,11 +9,7 @@ function App() {
       <header className="mb-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 bg-linear-to-r from-blue-600 to-purple-600 rounded-lg"></div>
-            <h1 className="text-2xl font-bold text-gray-800">VectorShift</h1>
-            <span className="px-3 py-1 bg-blue-100 text-blue-800 text-sm font-medium rounded-full">
-              Pipeline Builder
-            </span>
+            <h1 className="text-2xl font-bold bg-linear-to-r from-blue-600 to-purple-600 text-white p-2 rounded-xl">VectorShift</h1>
           </div>
         </div>
         <p className="text-gray-600 mt-2">
@@ -23,17 +19,17 @@ function App() {
 
       {/* Main Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-        {/* Left Sidebar - 1 column on mobile, 1/4 width on desktop */}
+        {/* Left Sidebar */}
         <div className="lg:col-span-1 space-y-6">
           <div className="bg-white rounded-xl shadow-lg p-4">
             <h2 className="font-semibold text-gray-700 mb-4 text-lg">Node Library</h2>
             <PipelineToolbar />
           </div>
-          
+
 
         </div>
 
-        {/* Main Canvas Area - 1 column on mobile, 3/4 width on desktop */}
+        {/* Main Canvas Area */}
         <div className="lg:col-span-3">
           <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200 h-full">
             <div className="p-4 border-b border-gray-200 bg-linear-to-r from-gray-50 to-white">
@@ -45,11 +41,11 @@ function App() {
               </div>
             </div>
             <PipelineUI />
-                    <div className="bg-white rounded-xl shadow-lg p-4">
-            <h2 className="font-semibold text-gray-700 mb-4 text-lg">Pipeline Actions</h2>
-            <SubmitButton />
+            <div className="bg-white rounded-xl shadow-lg p-4">
+              <h2 className="font-semibold text-gray-700 mb-4 text-lg">Pipeline Actions</h2>
+              <SubmitButton />
 
-          </div>
+            </div>
           </div>
         </div>
       </div>

@@ -1,4 +1,3 @@
-// store.js
 import { create } from "zustand";
 import {
   addEdge,
@@ -10,10 +9,10 @@ import {
 export const useStore = create((set, get) => ({
   nodes: [],
   edges: [],
-  nodeIDs: {}, // ✅ INITIALIZE nodeIDs here!
+  nodeIDs: {}, 
   
   getNodeID: (type) => {
-    const currentIDs = get().nodeIDs; // ✅ Get current state
+    const currentIDs = get().nodeIDs; 
     const newIDs = { ...currentIDs };
     
     if (newIDs[type] === undefined) {
@@ -21,7 +20,7 @@ export const useStore = create((set, get) => ({
     }
     newIDs[type] += 1;
     
-    set({ nodeIDs: newIDs }); // ✅ Update state
+    set({ nodeIDs: newIDs }); 
     return `${type}_${newIDs[type]}`;
   },
   
@@ -75,7 +74,7 @@ export const useStore = create((set, get) => ({
     });
   },
   
-  // ✅ Optional: Clear all nodes/edges
+
   clearPipeline: () => {
     set({
       nodes: [],

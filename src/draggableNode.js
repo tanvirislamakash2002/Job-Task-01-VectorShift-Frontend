@@ -1,4 +1,3 @@
-// draggableNode.js
 import { 
   FiUpload, FiDownload, FiCpu, FiFileText, 
   FiFile, FiCode, FiMessageSquare, FiFilter,
@@ -6,7 +5,7 @@ import {
 } from 'react-icons/fi';
 
 export const DraggableNode = ({ type, label }) => {
-  // Define color mapping
+  
   const getColorClass = (nodeType) => {
     const colorMap = {
       'customInput': 'bg-blue-600 hover:bg-blue-700 border-blue-500',

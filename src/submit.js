@@ -54,7 +54,7 @@ export const SubmitButton = () => {
       const result = await backendResponse.json();
       setResponse(result);
       
-      // SweetAlert2 for success
+
       MySwal.fire({
         title: 'Pipeline Analysis Results',
         html: `
@@ -91,7 +91,7 @@ export const SubmitButton = () => {
     } catch (error) {
       console.error('Error submitting pipeline:', error);
       
-      // SweetAlert2 for error
+
       MySwal.fire({
         title: 'Error Submitting Pipeline',
         html: `
@@ -125,7 +125,7 @@ export const SubmitButton = () => {
         disabled={isLoading}
         className={`
           flex items-center justify-center gap-2.5
-          px-8 py-3.5
+          px-8 py-3.5 cursor-pointer
           text-white font-semibold text-base
           rounded-xl shadow-lg
           transition-all duration-300 ease-in-out
@@ -134,8 +134,8 @@ export const SubmitButton = () => {
           ${isLoading 
             ? 'bg-gray-500 hover:bg-gray-600' 
             : response 
-              ? 'bg-gradient-to-br from-emerald-500 to-green-400 hover:from-emerald-600 hover:to-green-500' 
-              : 'bg-gradient-to-br from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600'
+              ? 'bg-linear-to-br from-emerald-500 to-green-400 hover:from-emerald-600 hover:to-green-500' 
+              : 'bg-linear-to-br from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600'
           }
           hover:shadow-xl active:scale-[0.98]
         `}
@@ -267,10 +267,8 @@ export const SubmitButton = () => {
           </div>
         </div>
       </div>
-      
-      {/* Pipeline Stats Summary */}
-      <div className="mt-4 w-full">
 
+      <div className="mt-4 w-full">
         <p className="text-xs text-gray-500 mt-2 text-center">
           Build your pipeline, then click Submit to analyze
         </p>

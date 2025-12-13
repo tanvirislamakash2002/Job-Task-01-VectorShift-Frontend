@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* Force some Tailwind classes to be included */
+
 .test-hidden {
   @apply bg-red-500 text-white p-4;
 }
