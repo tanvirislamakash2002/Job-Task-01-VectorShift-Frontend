@@ -202,7 +202,7 @@ export const SubmitButton = () => {
                 </div>
               </div>
               <div className={`text-2xl font-bold ${response.is_dag ? 'text-emerald-600' : 'text-rose-600'}`}>
-                {response.is_dag ? '✓ Yes' : '✗ No'}
+                {response.is_dag ? 'Yes' : 'No'}
               </div>
             </div>
           </div>
@@ -271,22 +271,7 @@ export const SubmitButton = () => {
       
       {/* Pipeline Stats Summary */}
       <div className="mt-4 w-full">
-        <div className="grid grid-cols-2 gap-4 text-sm">
-          <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
-            <div className="flex items-center gap-2 text-blue-700">
-              <FiBarChart2 className="w-4 h-4" />
-              <span>Current Nodes:</span>
-            </div>
-            <span className="font-bold text-blue-800">{nodes.length}</span>
-          </div>
-          <div className="flex items-center justify-between p-3 bg-purple-50 rounded-lg">
-            <div className="flex items-center gap-2 text-purple-700">
-              <FiLink className="w-4 h-4" />
-              <span>Current Edges:</span>
-            </div>
-            <span className="font-bold text-purple-800">{edges.length}</span>
-          </div>
-        </div>
+
         <p className="text-xs text-gray-500 mt-2 text-center">
           Build your pipeline, then click Submit to analyze
         </p>

@@ -40,10 +40,7 @@ function App() {
               <div className="flex items-center justify-between">
                 <h2 className="font-semibold text-gray-800">Pipeline Canvas</h2>
                 <div className="text-sm text-gray-500">
-                  <span className="flex items-center">
-                    <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-                    Ready to connect
-                  </span>
+
                 </div>
               </div>
             </div>
@@ -51,11 +48,7 @@ function App() {
                     <div className="bg-white rounded-xl shadow-lg p-4">
             <h2 className="font-semibold text-gray-700 mb-4 text-lg">Pipeline Actions</h2>
             <SubmitButton />
-            <div className="mt-4 text-xs text-gray-500">
-              <p>Click submit to analyze your pipeline structure.</p>
-              <p className="mt-2">Nodes: Inputs, LLMs, Text, Outputs</p>
-              <p>Connections define data flow.</p>
-            </div>
+
           </div>
           </div>
         </div>
